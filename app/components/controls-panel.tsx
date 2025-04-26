@@ -117,53 +117,57 @@ const ControlsPanel = ({ controlsEvents, setControlsEvents, allColumns }: Contro
       </div>
 
       {/* group by */}
-      <div className="flex flex-col p-4 border gap-y-4 rounded-sm">
-        <div className="flex flex-col gap-y-2">
-          <Label>Agrupar por</Label>
-          <Select value={groupBy} onValueChange={setGroupBy}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione o eixo Y" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">None</SelectItem>
-              {allColumns.map((column) => (
-                <SelectItem key={column} value={column}>
-                  {column}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center gap-x-2">
-          <Switch checked={isStacked} onCheckedChange={setIsStacked} />
-          <Label>Empilhar</Label>
-        </div>
+
+      <div className="flex gap-x-2">
+        <Label>Agrupar por:</Label>
+        <Select value={groupBy} onValueChange={setGroupBy}>
+          <SelectTrigger>
+            <SelectValue placeholder="Selecione o eixo Y" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="none">None</SelectItem>
+            {allColumns.map((column) => (
+              <SelectItem key={column} value={column}>
+                {column}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex items-center gap-x-2">
+        <Switch checked={isStacked} id="stacked" onCheckedChange={setIsStacked} />
+        <Label htmlFor="stacked" className="cursor-pointer">
+          Empilhar
+        </Label>
       </div>
 
       {/* reference line */}
-      <div className="flex gap-x-2">
-        <Checkbox
-          id="average-reference-line"
-          checked={averageReferenceLine}
-          onCheckedChange={setAverageReferenceLine}
-        />
-        <Label htmlFor="average-reference-line" className="cursor-pointer">
-          Linha média
-        </Label>
-      </div>
+      <div className="flex flex-col p-4 border gap-y-4 rounded-sm">
+        <Label>Linhas de referência</Label>
+        <div className="flex gap-x-2">
+          <Checkbox
+            id="average-reference-line"
+            checked={averageReferenceLine}
+            onCheckedChange={setAverageReferenceLine}
+          />
+          <Label htmlFor="average-reference-line" className="cursor-pointer">
+            Linha média
+          </Label>
+        </div>
 
-      <div className="flex gap-x-2">
-        <Checkbox id="min-reference-line" checked={minReferenceLine} onCheckedChange={setMinReferenceLine} />
-        <Label htmlFor="min-reference-line" className="cursor-pointer">
-          Linha mínima
-        </Label>
-      </div>
+        <div className="flex gap-x-2">
+          <Checkbox id="min-reference-line" checked={minReferenceLine} onCheckedChange={setMinReferenceLine} />
+          <Label htmlFor="min-reference-line" className="cursor-pointer">
+            Linha mínima
+          </Label>
+        </div>
 
-      <div className="flex gap-x-2">
-        <Checkbox id="max-reference-line" checked={maxReferenceLine} onCheckedChange={setMaxReferenceLine} />
-        <Label htmlFor="max-reference-line" className="cursor-pointer">
-          Linha máxima
-        </Label>
+        <div className="flex gap-x-2">
+          <Checkbox id="max-reference-line" checked={maxReferenceLine} onCheckedChange={setMaxReferenceLine} />
+          <Label htmlFor="max-reference-line" className="cursor-pointer">
+            Linha máxima
+          </Label>
+        </div>
       </div>
     </div>
   );

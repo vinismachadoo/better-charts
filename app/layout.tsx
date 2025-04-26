@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { Toaster as SoonerToaster } from '@/components/ui/sonner';
+import { ModeToggle } from '@/components/mode-toggle';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -25,19 +27,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="flex w-full h-12 border-b items-center justify-start px-6">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center aspect-square bg-foreground text-background rounded-sm p-1">
-              <span className="text-xs font-bold">BC</span>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-[100dvh] bg-background`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="flex w-full h-12 border-b items-center justify-between px-6">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center aspect-square bg-foreground text-background rounded-sm p-1">
+                <span className="text-xs font-bold">BC</span>
+              </div>
+              <span className="text-sm font-bold">Better Charts</span>
             </div>
-            <span className="text-sm font-bold">Better Charts</span>
+            <div className="flex items-center gap-2">
+              <ModeToggle />
+            </div>
           </div>
-        </div>
-        {children}
-        <TailwindIndicator />
-        <SoonerToaster richColors />
+          {children}
+          <TailwindIndicator />
+          <SoonerToaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
