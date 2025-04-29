@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, Label, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 
 interface DataVisualizerProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
   chartType: 'line' | 'bar' | 'donut';
   category: string;

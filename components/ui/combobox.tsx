@@ -9,6 +9,7 @@ interface ComboboxOption {
   label: React.ReactNode;
   filterValue: string;
   value: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -35,7 +36,6 @@ const Combobox = ({
   disabled,
   className,
   popoverContentClassName,
-  deselectable = false,
 }: ComboboxProps) => {
   const [open, setOpen] = React.useState(false);
 
