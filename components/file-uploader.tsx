@@ -5,7 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useControllableState } from '@/hooks/use-controllable-state';
 import { cn, formatBytes } from '@/lib/utils';
-import { FileText, UploadIcon, X } from 'lucide-react';
+import { CloudUploadIcon, FileText, X } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 import Dropzone, { type DropzoneProps, type FileRejection } from 'react-dropzone';
@@ -203,14 +203,14 @@ export function FileUploader(props: FileUploaderProps) {
             {isDragActive ? (
               <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
                 <div className="rounded-full border border-dashed p-3">
-                  <UploadIcon className="size-7 text-muted-foreground" aria-hidden="true" />
+                  <CloudUploadIcon className="size-6 text-muted-foreground" aria-hidden="true" />
                 </div>
                 <p className="font-medium text-muted-foreground">Arraste e solte o arquivo aqui</p>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
                 <div className="rounded-full border border-dashed p-3">
-                  <UploadIcon className="size-7 text-muted-foreground" aria-hidden="true" />
+                  <CloudUploadIcon className="size-6 text-muted-foreground" aria-hidden="true" />
                 </div>
                 <div className="flex flex-col gap-px">
                   <p className="font-medium text-muted-foreground text-balance">

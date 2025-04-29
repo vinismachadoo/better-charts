@@ -8,7 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { aggregateData } from '@/lib/utils';
+import { aggregateData, cn } from '@/lib/utils';
 import { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, Label, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 
@@ -23,6 +23,11 @@ interface DataVisualizerProps {
   averageReferenceLine: boolean;
   minReferenceLine: boolean;
   maxReferenceLine: boolean;
+  legend: {
+    show: boolean;
+    align: 'left' | 'right' | 'center';
+    numberOfColumns: string;
+  };
 }
 
 const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)'];
@@ -38,6 +43,7 @@ export default function DataVisualizer({
   averageReferenceLine,
   minReferenceLine,
   maxReferenceLine,
+  legend,
 }: DataVisualizerProps) {
   const formattedData = useMemo(() => {
     if (!category || !value) return [];
@@ -99,6 +105,8 @@ export default function DataVisualizer({
       return acc;
     }, {} as ChartConfig);
   }, [formattedData, category]);
+
+  console.log(`repeat(${legend.numberOfColumns ?? 1}, 1fr)`);
 
   const renderChart = () => {
     switch (chartType) {
@@ -171,7 +179,7 @@ export default function DataVisualizer({
         );
       case 'bar':
         return (
-          <ChartContainer config={chartConfig}>
+          <ChartContainer config={chartConfig} className="w-full h-full">
             <BarChart accessibilityLayer data={formattedData} margin={{ top: 10, right: 80, left: 10, bottom: 10 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               {groupBy ? (
@@ -242,9 +250,23 @@ export default function DataVisualizer({
                   />
                 }
               />
-              <ChartLegend
-                content={<ChartLegendContent className="grid grid-cols-4 pt-4 w-full flex-wrap gap-2 mx-10" />}
-              />
+              {legend.show && (
+                <ChartLegend
+                  content={
+                    <ChartLegendContent
+                      style={{ '--num-cols': `repeat(${legend.numberOfColumns ?? 1}, 1fr)` } as React.CSSProperties}
+                      className={cn(
+                        'grid grid-cols-[var(--num-cols)] mt-4 w-fit justify-self-end flex-wrap gap-2 mx-6',
+                        {
+                          'justify-self-end': legend.align === 'right',
+                          'justify-self-start': legend.align === 'left',
+                          'justify-self-center': legend.align === 'center',
+                        }
+                      )}
+                    />
+                  }
+                />
+              )}
               {averageReferenceLine && (
                 <ReferenceLine y={stats.avg} stroke="var(--muted-foreground)" strokeDasharray="3 3" strokeWidth={1}>
                   <Label position="right" value={`Avg: ${stats.avg.toFixed(2)}`} fill="var(--foreground)" offset={10} />
@@ -291,7 +313,7 @@ export default function DataVisualizer({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col w-full h-full items-center justify-center py-12 px-6">
       {!category || !value ? (
         <div className="text-center text-muted-foreground p-8">
           {chartType === 'donut'

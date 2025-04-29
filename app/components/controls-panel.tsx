@@ -26,6 +26,7 @@ const ControlsPanel = ({ controlsEvents, setControlsEvents, allColumns }: Contro
     averageReferenceLine,
     minReferenceLine,
     maxReferenceLine,
+    legend,
   } = controlsEvents;
 
   const setChartType = (chartType: 'line' | 'bar') => setControlsEvents({ ...controlsEvents, chartType });
@@ -38,6 +39,8 @@ const ControlsPanel = ({ controlsEvents, setControlsEvents, allColumns }: Contro
     setControlsEvents({ ...controlsEvents, averageReferenceLine });
   const setMinReferenceLine = (minReferenceLine: boolean) => setControlsEvents({ ...controlsEvents, minReferenceLine });
   const setMaxReferenceLine = (maxReferenceLine: boolean) => setControlsEvents({ ...controlsEvents, maxReferenceLine });
+  const setLegend = (legend: { show: boolean; align: 'left' | 'right' | 'center'; numberOfColumns: string }) =>
+    setControlsEvents({ ...controlsEvents, legend });
 
   return (
     <div className="flex flex-col gap-4">
@@ -117,7 +120,6 @@ const ControlsPanel = ({ controlsEvents, setControlsEvents, allColumns }: Contro
       </div>
 
       {/* group by */}
-
       <div className="flex gap-x-2">
         <Label>Agrupar por:</Label>
         <Select value={groupBy} onValueChange={setGroupBy}>
@@ -167,6 +169,50 @@ const ControlsPanel = ({ controlsEvents, setControlsEvents, allColumns }: Contro
           <Label htmlFor="max-reference-line" className="cursor-pointer">
             Linha máxima
           </Label>
+        </div>
+      </div>
+
+      {/* legend */}
+      <div className="flex flex-col p-4 border gap-y-4 rounded-sm">
+        <div className="flex items-center gap-x-2">
+          <Switch
+            checked={legend.show}
+            id="show-legend"
+            onCheckedChange={() => setLegend({ ...legend, show: !legend.show })}
+          />
+          <Label htmlFor="show-legend" className="cursor-pointer">
+            Mostrar legenda
+          </Label>
+        </div>
+
+        <div className="flex items-center gap-x-2">
+          <Select
+            value={legend.align}
+            onValueChange={(v) => setLegend({ ...legend, align: v as 'left' | 'right' | 'center' })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione a posição da legenda" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="left">Esquerda</SelectItem>
+              <SelectItem value="right">Direita</SelectItem>
+              <SelectItem value="center">Centro</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-x-2">
+          <Select value={legend.numberOfColumns} onValueChange={(v) => setLegend({ ...legend, numberOfColumns: v })}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o número de colunas da legenda" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">1</SelectItem>
+              <SelectItem value="2">2</SelectItem>
+              <SelectItem value="3">3</SelectItem>
+              <SelectItem value="4">4</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>

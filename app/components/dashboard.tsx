@@ -16,9 +16,15 @@ export interface ControlsEvents {
   averageReferenceLine: boolean;
   minReferenceLine: boolean;
   maxReferenceLine: boolean;
+  legend: {
+    show: boolean;
+    align: 'left' | 'right' | 'center';
+    numberOfColumns: string;
+  };
 }
 
 const Dashboard = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -32,8 +38,14 @@ const Dashboard = () => {
     averageReferenceLine: false,
     minReferenceLine: false,
     maxReferenceLine: false,
+    legend: {
+      show: true,
+      align: 'center',
+      numberOfColumns: '1',
+    },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const processDateColumns = (data: any[]) => {
     if (!data.length) return data;
 
@@ -61,6 +73,7 @@ const Dashboard = () => {
 
     setLoading(true);
     const parsedData = await parseFile(file);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const processedData = processDateColumns(parsedData as any[]);
     setData(processedData);
     setLoading(false);
@@ -69,16 +82,16 @@ const Dashboard = () => {
   const allColumns = React.useMemo(() => getAllColumns(data), [data]);
 
   return (
-    <div className="grid grid-cols-[25%_75%] gap-4 w-full">
+    <div className="grid grid-cols-[25%_75%] w-full">
       <div className="border-r h-full p-6">
         <ControlsPanel allColumns={allColumns} controlsEvents={controlsEvents} setControlsEvents={setControlsEvents} />
       </div>
 
-      <div className="flex p-4 h-full w-full items-center justify-center">
+      <div className="flex h-full w-full items-center justify-center">
         {loading ? (
-          <div className="flex items-center justify-center h-full">Processando arquivo...</div>
+          <div className="flex items-center justify-center w-full h-full">Processando arquivo...</div>
         ) : data.length > 0 ? (
-          <div className="w-full h-full">
+          <div className="flex h-full w-full items-center justify-center">
             <DataVisualizer
               data={data}
               chartType={controlsEvents.chartType}
@@ -90,21 +103,23 @@ const Dashboard = () => {
               averageReferenceLine={controlsEvents.averageReferenceLine}
               minReferenceLine={controlsEvents.minReferenceLine}
               maxReferenceLine={controlsEvents.maxReferenceLine}
+              legend={controlsEvents.legend}
             />
           </div>
         ) : (
-          <FileUploader
-            accept={{
-              'text/csv': [],
-              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [],
-              'application/vnd.ms-excel': [],
-            }}
-            multiple={false}
-            maxSize={100 * 1024 * 1024}
-            maxFileCount={1}
-            onValueChange={handleFileUpload}
-            className="h-full w-full border-none"
-          />
+          <div className="flex h-full w-full items-center justify-center">
+            <FileUploader
+              accept={{
+                'text/csv': [],
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [],
+                'application/vnd.ms-excel': [],
+              }}
+              multiple={false}
+              maxSize={100 * 1024 * 1024}
+              maxFileCount={1}
+              onValueChange={handleFileUpload}
+            />
+          </div>
         )}
       </div>
     </div>
