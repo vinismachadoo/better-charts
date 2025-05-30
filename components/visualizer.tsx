@@ -107,8 +107,6 @@ export default function DataVisualizer({
     }, {} as ChartConfig);
   }, [formattedData, category]);
 
-  console.log(`repeat(${legend.numberOfColumns ?? 1}, 1fr)`);
-
   const renderChart = () => {
     switch (chartType) {
       case 'line':
@@ -135,8 +133,6 @@ export default function DataVisualizer({
                       const total = Object.keys(item.payload)
                         .filter((key) => key in chartConfig)
                         .reduce((sum, key) => sum + (item.payload[key] || 0), 0);
-
-                      console.log(item);
 
                       return (
                         <>
@@ -219,8 +215,6 @@ export default function DataVisualizer({
                       const total = Object.keys(item.payload)
                         .filter((key) => key in chartConfig)
                         .reduce((sum, key) => sum + (item.payload[key] || 0), 0);
-
-                      console.log(item);
 
                       return (
                         <>
