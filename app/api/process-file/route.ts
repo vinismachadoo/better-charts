@@ -65,10 +65,11 @@ async function processCSVFile(file: File): Promise<ProcessedRow[]> {
 
 export async function POST(req: NextRequest) {
   try {
+    console.log('0');
     const formData = await req.formData();
+    console.log('0.1');
     const file = formData.get('file') as File;
-
-    console.log('1');
+    console.log('0.2');
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });

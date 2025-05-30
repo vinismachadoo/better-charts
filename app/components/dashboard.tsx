@@ -41,8 +41,6 @@ const Dashboard = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    console.log('2');
-
     try {
       const response = await fetch('/api/process-file', {
         method: 'POST',
