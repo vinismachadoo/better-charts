@@ -1,6 +1,5 @@
 'use client';
 
-import { ControlsEvents } from '@/app/components/dashboard';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -13,6 +12,23 @@ interface ControlsPanelProps {
   controlsEvents: ControlsEvents;
   setControlsEvents: (controlsEvents: ControlsEvents) => void;
   allColumns: string[];
+}
+
+export interface ControlsEvents {
+  chartType: 'line' | 'bar';
+  category: string;
+  value: string;
+  groupBy: string;
+  operation: string;
+  isStacked: boolean;
+  averageReferenceLine: boolean;
+  minReferenceLine: boolean;
+  maxReferenceLine: boolean;
+  legend: {
+    show: boolean;
+    align: 'left' | 'right' | 'center';
+    numberOfColumns: string;
+  };
 }
 
 const ControlsPanel = ({ controlsEvents, setControlsEvents, allColumns }: ControlsPanelProps) => {

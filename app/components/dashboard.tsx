@@ -1,6 +1,6 @@
 'use client';
 
-import ControlsPanel from '@/app/components/controls-panel';
+import ControlsPanel, { type ControlsEvents } from '@/app/components/controls-panel';
 import { getAllColumns } from '@/lib/utils';
 import { FileUploader } from '@/components/file-uploader';
 import { Loader2 } from 'lucide-react';
@@ -9,23 +9,6 @@ import DataVisualizer from '@/components/visualizer';
 
 interface ProcessedRow {
   [key: string]: string | number | null;
-}
-
-interface ControlsEvents {
-  chartType: 'line' | 'bar';
-  category: string;
-  value: string;
-  groupBy: string;
-  operation: string;
-  isStacked: boolean;
-  averageReferenceLine: boolean;
-  minReferenceLine: boolean;
-  maxReferenceLine: boolean;
-  legend: {
-    show: boolean;
-    align: 'left' | 'right' | 'center';
-    numberOfColumns: string;
-  };
 }
 
 const Dashboard = () => {
